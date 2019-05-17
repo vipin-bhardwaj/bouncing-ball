@@ -1,3 +1,7 @@
+
+
+/*<!--- mdn(developer mozilla) assignment -->*/
+
 html, body {
   margin: 0;
 }
@@ -24,3 +28,10 @@ h1 {
   text-shadow: 0 0 4px white;
 }
 
+p {
+  position: absolute;
+  margin: 0;
+  top: 35px;
+  right: 5px;
+  color: #aaa;
+}

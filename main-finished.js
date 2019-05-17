@@ -1,3 +1,5 @@
+//<!--- mdn(developer mozilla) assignment -->
+
 // setup canvas
 
 var canvas = document.querySelector('canvas');
@@ -7,13 +9,14 @@ var width = canvas.width = window.innerWidth;
 var height = canvas.height = window.innerHeight;
 
 // function to generate random number
+var ballCount = 0;
 
 function random(min,max) {
   var num = Math.floor(Math.random()*(max-min)) + min;
   return num;
 }
 
-// define Ball constructor
+// Shape object class
 
 function Shape(x, y, velX, velY, exists) {
   this.x = x;
@@ -23,13 +26,15 @@ function Shape(x, y, velX, velY, exists) {
   this.exists = exists;
 }
 
+// ball class
+
 function Ball(x, y, velX, velY, color, size, exists) {
   Shape.call(this, x, y, velX, velY, exists);
   this.color = color;
   this.size = size;
 }
 
-// define ball draw method
+// to draw the ball
 
 Ball.prototype.draw = function() {
   ctx.beginPath();
@@ -38,10 +43,47 @@ Ball.prototype.draw = function() {
   ctx.fill();
 };
 
-// define ball update method
+// evil circle
+
+function EvilCircle(x, y, exists) {
+
+  Shape.call(this, x, y, 20, 20, exists);
+  this.color = 'White';
+  this.size = 10;
+}
+EvilCircle.prototype.draw = function() {
+  ctx.beginPath();
+  ctx.lineWidth = 3;
+  // ctx.fillStyle = this.color;
+  ctx.strokeStyle = 'White';
+  ctx.arc(this.x, this.y, this.size, 0, 2* Math.PI);
+  ctx.stroke();
+  // ctx.fill();
+}
+
+EvilCircle.prototype.update = function() {
+  if( (this.x + this.size) >= width) {
+    // this.x = width;
+    this.x = width - this.size - 10;
+  }
+
+  if((this.x - this.size) <= 0) {
+    // this.x = 0;
+    this.x = this.size + 10;
+  }
+
+  if((this.y + this.size) >= height) {
+    this.y = height - this.size - 10;
+  }
+
+  if((this.y - this.size) <= 0) {
+    this.y = this.size + 10;
+  }
+}
+// ball update method
 
 Ball.prototype.update = function() {
-  if((this.x + this.size) >= width) {
+  if( (this.x + this.size) >= width) {
     this.velX = -(this.velX);
   }
 
@@ -61,11 +103,54 @@ Ball.prototype.update = function() {
   this.y += this.velY;
 };
 
-// define ball collision detection
+//////// key controls ////////
+
+EvilCircle.prototype.setControls = function() {
+
+  var _this = this;
+  window.onkeydown = function(e) {
+    if(e.keyCode === 65) { //A
+      _this.x -= _this.velX;
+    } else if(e.keyCode === 68) {
+      _this.x += _this.velX; /// D
+    } else if(e.keyCode === 87) {
+      _this.y -= _this.velY; // S
+    } else if(e.keyCode == 83) {
+      _this.y += _this.velY; //// W
+    }
+  }
+
+}
+
+
+///////////////////////////////
+
+////////// Evil Circle collision /////////
+EvilCircle.prototype.collisionDetect = function() {
+  for(var j = 0; j < balls.length; j++) {
+    if(balls[j].exists === false) continue;
+   
+    var dx = this.x - balls[j].x;
+    var dy = this.y - balls[j].y;
+    var distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < this.size + balls[j].size) {
+      balls[j].exists = false;
+      ballCount += 1;
+      document.querySelector('#Count').innerText = ballCount;
+    }
+    
+  }
+}
+
+//////////////////
+
+
+//  ball collision detection
 
 Ball.prototype.collisionDetect = function() {
   for(var j = 0; j < balls.length; j++) {
-    if(!(this === balls[j])) {
+    if(!(this === balls[j]) && balls[j].exists) {
       var dx = this.x - balls[j].x;
       var dy = this.y - balls[j].y;
       var distance = Math.sqrt(dx * dx + dy * dy);
@@ -77,7 +162,7 @@ Ball.prototype.collisionDetect = function() {
   }
 };
 
-// define array to store balls and populate it
+// array to store balls and populate it
 
 var balls = [];
 
@@ -91,18 +176,26 @@ while(balls.length < 25) {
     random(-7,7),
     random(-7,7),
     'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) +')',
-    size
+    size,
+    true
   );
   balls.push(ball);
 }
 
 // define loop that keeps drawing the scene constantly
+var EvilBoy = new EvilCircle(30, 30, true);
 
 function loop() {
   ctx.fillStyle = 'rgba(0,0,0,0.25)';
   ctx.fillRect(0,0,width,height);
 
+  EvilBoy.draw();
+  EvilBoy.update();
+  EvilBoy.collisionDetect();
+
+
   for(var i = 0; i < balls.length; i++) {
+    if(balls[i].exists === false) continue;
     balls[i].draw();
     balls[i].update();
     balls[i].collisionDetect();
@@ -111,6 +204,7 @@ function loop() {
   requestAnimationFrame(loop);
 }
 
+EvilBoy.setControls();
 
 
 loop();
