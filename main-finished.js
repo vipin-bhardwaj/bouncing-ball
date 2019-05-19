@@ -1,14 +1,16 @@
 //<!--- mdn(developer mozilla) assignment -->
 
 // setup canvas
+var canvas, width, height;
 
 function StartGame() {
 
-  var canvas = document.querySelector('canvas');
+  
+  canvas = document.querySelector('canvas');
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  
   var ctx = canvas.getContext('2d');
-
-  var width = canvas.width = window.innerWidth;
-  var height = canvas.height = window.innerHeight;
 
   // function to generate random number
   var ballCount = 0;
@@ -82,23 +84,38 @@ function StartGame() {
     if((this.y - this.size) <= 0) {
       this.y = this.size + 10;
     }
+
   }
   // ball update method
 
   Ball.prototype.update = function() {
     if( (this.x + this.size) >= width) {
+      if((this.x + this.size) > width + this.size) {
+        this.x = width - 20;
+      }
       this.velX = -(this.velX);
     }
 
     if((this.x - this.size) <= 0) {
+      // this.x = 2;
+      if((this.x + this.size) <= this.size) {
+        this.x = 15;
+      }
       this.velX = -(this.velX);
     }
 
     if((this.y + this.size) >= height) {
+      if (this.y + this.size >= height + this.size) {
+        this.y = height - 15;
+      }
       this.velY = -(this.velY);
     }
 
     if((this.y - this.size) <= 0) {
+      // this.y = 2;
+      if(this.y - this.size < this.size) {
+        this.y = 15;
+      }
       this.velY = -(this.velY);
     }
 
@@ -241,3 +258,12 @@ document.querySelector('button').onclick = function() {
   // loop();
   // EndGame();
 }
+
+function reportWindowSize() {
+
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+
+}
+
+window.onresize = reportWindowSize;
