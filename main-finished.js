@@ -98,7 +98,7 @@ function StartGame() {
 
     if((this.x - this.size) <= 0) {
       // this.x = 2;
-      if((this.x + this.size) <= this.size) {
+      if((this.x - this.size) <= -1* this.size) {
         this.x = 15;
       }
       this.velX = -(this.velX);
@@ -106,14 +106,14 @@ function StartGame() {
 
     if((this.y + this.size) >= height) {
       if (this.y + this.size >= height + this.size) {
-        this.y = height - 15;
+        this.y = height - 20;
       }
       this.velY = -(this.velY);
     }
 
     if((this.y - this.size) <= 0) {
       // this.y = 2;
-      if(this.y - this.size < this.size) {
+      if(this.y - this.size < -1 * this.size) {
         this.y = 15;
       }
       this.velY = -(this.velY);

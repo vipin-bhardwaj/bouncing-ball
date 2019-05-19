@@ -29,7 +29,7 @@ h1 {
   text-shadow: 0 0 4px white;
 }
 
-p {
+#ballCount {
   position: absolute;
   margin: 0;
   top: 35px;
@@ -46,4 +46,8 @@ p {
   width: 300px;
   font-size: 25px;
   font-family: Arial, Helvetica, sans-serif;  
+}
+#note {
+  color: white;
+  font-weight: bold;
 }
