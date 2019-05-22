@@ -264,13 +264,12 @@ document.querySelector('button').onclick = function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log("hello");
   window.onresize = reportWindowSize;
 });
 function reportWindowSize() {
 
   if(!flagGameStarted) return;
-  
+
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
 
