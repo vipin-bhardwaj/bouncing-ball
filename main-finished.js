@@ -247,7 +247,7 @@ function EndGame(ramId) {
 
 
 // loop();
-
+var flagGameStarted = false;
 
 document.querySelector('button').onclick = function() {
   document.body.removeChild(document.querySelector('.wrapper'));
@@ -255,15 +255,23 @@ document.querySelector('button').onclick = function() {
   const canva = document.createElement('canvas');
   document.body.appendChild(canva);
   StartGame();
+  flagGameStarted = true;
   // loop();
   // EndGame();
 }
 
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("hello");
+  window.onresize = reportWindowSize;
+});
 function reportWindowSize() {
 
+  if(!flagGameStarted) return;
+  
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
 
 }
-
-window.onresize = reportWindowSize;
