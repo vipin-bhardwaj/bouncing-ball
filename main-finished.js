@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.onresize = reportWindowSize;
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
     // Take the user to a different screen here.
-    document.querySelector('.wrapper').style.display = "hidden";
+    document.querySelector('.wrapper').style.display = "none";
     document.querySelector('.forPhone').style.display = "block";
   }
 });
