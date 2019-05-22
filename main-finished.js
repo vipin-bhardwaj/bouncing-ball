@@ -264,18 +264,9 @@ document.querySelector('button').onclick = function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  window.onresize = reportWindowSize;
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
     // Take the user to a different screen here.
     document.querySelector('.forPhone').style.display = "block";
     document.querySelector('.wrapper').style.visibility = "hidden";
   }
 });
-function reportWindowSize() {
-
-  if(!flagGameStarted) return;
-
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-
-}
